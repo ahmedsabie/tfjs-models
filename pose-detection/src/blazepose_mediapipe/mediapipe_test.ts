@@ -15,8 +15,8 @@
  * =============================================================================
  */
 
-// tslint:disable-next-line: no-imports-from-dist
 import {KARMA_SERVER, loadImage} from '@tensorflow-models/util';
+// tslint:disable-next-line: no-imports-from-dist
 import {BROWSER_ENVS, describeWithFlags} from '@tensorflow/tfjs-core/dist/jasmine_util';
 // tslint:disable-next-line: no-imports-from-dist
 import {expectArraysClose} from '@tensorflow/tfjs-core/dist/test_util';

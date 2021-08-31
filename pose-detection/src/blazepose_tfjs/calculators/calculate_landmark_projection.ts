@@ -19,7 +19,6 @@ import {Keypoint} from '@tensorflow-models/util';
 
 import {Rect} from '../../calculators/interfaces/shape_interfaces';
 
-
 /**
  * Projects normalized landmarks in a rectangle to its original coordinates. The
  * rectangle must also be in normalized coordinates.
