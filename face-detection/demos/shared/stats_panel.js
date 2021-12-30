@@ -14,23 +14,19 @@
  * limitations under the License.
  * =============================================================================
  */
-import * as tf from '@tensorflow/tfjs-core';
-import {splitDetectionResult} from './split_detection_result';
+export function setupStats() {
+  const stats = new Stats();
+  stats.customFpsPanel = stats.addPanel(new Stats.Panel('FPS', '#0ff', '#002'));
+  stats.showPanel(stats.domElement.children.length - 1);
 
-export type DetectorInferenceResult = {
-  boxes: tf.Tensor2D,
-  logits: tf.Tensor1D
-};
+  const parent = document.getElementById('stats');
+  parent.appendChild(stats.domElement);
 
-export function detectorInference(detectionResult: tf.Tensor3D):
-    DetectorInferenceResult {
-  return tf.tidy(() => {
-    const [logits, rawBoxes] = splitDetectionResult(detectionResult);
-    // Shape [896, 12]
-    const rawBoxes2d = tf.squeeze(rawBoxes);
-    // Shape [896]
-    const logits1d = tf.squeeze(logits);
+  const statsPanes = parent.querySelectorAll('canvas');
 
-    return {boxes: rawBoxes2d as tf.Tensor2D, logits: logits1d as tf.Tensor1D};
-  });
+  for (let i = 0; i < statsPanes.length; ++i) {
+    statsPanes[i].style.width = '140px';
+    statsPanes[i].style.height = '80px';
+  }
+  return stats;
 }

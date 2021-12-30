@@ -14,23 +14,24 @@
  * limitations under the License.
  * =============================================================================
  */
-import * as tf from '@tensorflow/tfjs-core';
-import {splitDetectionResult} from './split_detection_result';
+import * as constants from './constants';
+import {SupportedModels} from './types';
 
-export type DetectorInferenceResult = {
-  boxes: tf.Tensor2D,
-  logits: tf.Tensor1D
-};
+export function getKeypointIndexByContour(model: SupportedModels):
+    {[label: string]: number[]} {
+  switch (model) {
+    case SupportedModels.MediaPipeFaceMesh:
+      return constants.MEDIAPIPE_KEYPOINTS_BY_CONTOUR;
+    default:
+      throw new Error(`Model ${model} is not supported.`);
+  }
+}
 
-export function detectorInference(detectionResult: tf.Tensor3D):
-    DetectorInferenceResult {
-  return tf.tidy(() => {
-    const [logits, rawBoxes] = splitDetectionResult(detectionResult);
-    // Shape [896, 12]
-    const rawBoxes2d = tf.squeeze(rawBoxes);
-    // Shape [896]
-    const logits1d = tf.squeeze(logits);
-
-    return {boxes: rawBoxes2d as tf.Tensor2D, logits: logits1d as tf.Tensor1D};
-  });
+export function getAdjacentPairs(model: SupportedModels): number[][] {
+  switch (model) {
+    case SupportedModels.MediaPipeFaceMesh:
+      return constants.MEDIAPIPE_CONNECTED_KEYPOINTS_PAIRS;
+    default:
+      throw new Error(`Model ${model} is not supported.`);
+  }
 }

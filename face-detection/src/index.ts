@@ -14,23 +14,18 @@
  * limitations under the License.
  * =============================================================================
  */
-import * as tf from '@tensorflow/tfjs-core';
-import {splitDetectionResult} from './split_detection_result';
 
-export type DetectorInferenceResult = {
-  boxes: tf.Tensor2D,
-  logits: tf.Tensor1D
-};
+export {createDetector} from './create_detector';
+// FaceDetector class.
+export {FaceDetector} from './face_detector';
+// Entry point to create a new detector instance.
+export {MediaPipeFaceMeshMediaPipeEstimationConfig, MediaPipeFaceMeshMediaPipeModelConfig} from './mediapipe/types';
+export {MediaPipeFaceMeshTfjsEstimationConfig, MediaPipeFaceMeshTfjsModelConfig} from './tfjs/types';
 
-export function detectorInference(detectionResult: tf.Tensor3D):
-    DetectorInferenceResult {
-  return tf.tidy(() => {
-    const [logits, rawBoxes] = splitDetectionResult(detectionResult);
-    // Shape [896, 12]
-    const rawBoxes2d = tf.squeeze(rawBoxes);
-    // Shape [896]
-    const logits1d = tf.squeeze(logits);
+// Supported models enum.
+export * from './types';
 
-    return {boxes: rawBoxes2d as tf.Tensor2D, logits: logits1d as tf.Tensor1D};
-  });
-}
+// Second level exports.
+// Utils for rendering.
+import * as util from './util';
+export {util};

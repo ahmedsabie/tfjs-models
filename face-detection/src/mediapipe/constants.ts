@@ -14,23 +14,17 @@
  * limitations under the License.
  * =============================================================================
  */
-import * as tf from '@tensorflow/tfjs-core';
-import {splitDetectionResult} from './split_detection_result';
+import {MediaPipeFaceMeshMediaPipeEstimationConfig, MediaPipeFaceMeshMediaPipeModelConfig} from './types';
 
-export type DetectorInferenceResult = {
-  boxes: tf.Tensor2D,
-  logits: tf.Tensor1D
-};
+export const DEFAULT_FACE_MESH_MODEL_CONFIG:
+    MediaPipeFaceMeshMediaPipeModelConfig = {
+      runtime: 'mediapipe',
+      maxFaces: 1,
+      predictIrises: false
+    };
 
-export function detectorInference(detectionResult: tf.Tensor3D):
-    DetectorInferenceResult {
-  return tf.tidy(() => {
-    const [logits, rawBoxes] = splitDetectionResult(detectionResult);
-    // Shape [896, 12]
-    const rawBoxes2d = tf.squeeze(rawBoxes);
-    // Shape [896]
-    const logits1d = tf.squeeze(logits);
-
-    return {boxes: rawBoxes2d as tf.Tensor2D, logits: logits1d as tf.Tensor1D};
-  });
-}
+export const DEFAULT_FACE_MESH_ESTIMATION_CONFIG:
+    MediaPipeFaceMeshMediaPipeEstimationConfig = {
+      flipHorizontal: false,
+      staticImageMode: false,
+    };
