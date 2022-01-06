@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2020 Google LLC. All Rights Reserved.
+ * Copyright 2021 Google LLC. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -53,26 +53,28 @@ function config({ plugins = [], output = {}, tsCompilerOptions = {} }) {
       banner: PREAMBLE,
       globals: {
         '@tensorflow/tfjs-core': 'tf',
-        '@tensorflow/tfjs-converter': 'tf'
+        '@tensorflow/tfjs-converter': 'tf',
+        '@mediapipe/face_mesh': 'faceMesh'
       },
       ...output,
     },
     external: [
       '@tensorflow/tfjs-core',
-      '@tensorflow/tfjs-converter'
+      '@tensorflow/tfjs-converter',
+      '@mediapipe/face_mesh'
     ]
   };
 }
 
 const packageName = 'faceLandmarksDetection';
 export default [
-  config({output: {format: 'umd', name: packageName, file: 'dist/face-landmarks-detection.js'}}),
+  config({ output: { format: 'umd', name: packageName, file: 'dist/face-landmarks-detection.js' } }),
   config({
     plugins: [terser({output: {preamble: PREAMBLE, comments: false}})],
-    output: {format: 'umd', name: packageName, file: 'dist/face-landmarks-detection.min.js'}
+    output: { format: 'umd', name: packageName, file: 'dist/face-landmarks-detection.min.js' }
   }),
   config({
     plugins: [terser({output: {preamble: PREAMBLE, comments: false}})],
-    output: {format: 'es', file: 'dist/face-landmarks-detection.esm.js'}
+    output: { format: 'es', file: 'dist/face-landmarks-detection.esm.js' }
   })
 ];

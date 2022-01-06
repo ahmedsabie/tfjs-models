@@ -1,4 +1,3 @@
-
 steps:
 
 # Install common dependencies.
@@ -31,15 +30,21 @@ steps:
   args: ['build']
   waitFor: ['yarn']
 
-# Run tests.
+# Run browser tests.
 - name: 'node:10'
   dir: 'face-landmarks-detection'
   entrypoint: 'yarn'
   id: 'test'
-  args: ['test']
-  waitFor: ['yarn']
+  args: ['test-ci']
+  env: ['BROWSERSTACK_USERNAME=deeplearnjs1']
+  secretEnv: ['BROWSERSTACK_KEY']
+  waitFor: ['build']
 
 # General configuration
+secrets:
+- kmsKeyName: projects/learnjs-174218/locations/global/keyRings/tfjs/cryptoKeys/enc
+  secretEnv:
+    BROWSERSTACK_KEY: CiQAkwyoIW0LcnxymzotLwaH4udVTQFBEN4AEA5CA+a3+yflL2ASPQAD8BdZnGARf78MhH5T9rQqyz9HNODwVjVIj64CTkFlUCGrP1B2HX9LXHWHLmtKutEGTeFFX9XhuBzNExA=
 timeout: 1800s
 logsBucket: 'gs://tfjs-build-logs'
 substitutions:
